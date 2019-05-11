@@ -1,0 +1,24 @@
+rosnacy([_]).
+rosnacy([H,H2|T]) :- rosnacy([H2|T]), H<H2.
+
+arytmetyczny([_]).
+arytmetyczny([_,_]).
+arytmetyczny([H,H2,H3|T]):- H2-H =:= H3-H2, arytmetyczny([H2,H3|T]).
+
+npoczatek(0,_,[]).
+npoczatek(N,[H|T],[H|R]):- X is N-1, npoczatek(X,T,R).
+
+mniejsze(_,[],[],[]).
+mniejsze(X,[H|T],[],[H|T]):- X<H ,!.
+mniejsze(X,[H|T],[H|M],W):- mniejsze(X,T,M,W).
+
+podzial([],[],[]).
+podzial([L|T],A,[X|Y]) :- npoczatek(L,A,X), append(X,Z,A),podzial(T,Z,Y).
+
+doposort(X,[],[X]).
+doposort(X,[H|T],[X,H|T]):- X<H,!.
+doposort(X,[H|T],[H|OUT]):- doposort(X,T,OUT).
+
+wstawsort([],[]).
+wstawsort([X|T],Y):- wstawsort(T,Z),doposort(X,Z,Y).
+

@@ -1,0 +1,16 @@
+konwersja([X,Y],skok(X,Y)).
+konwersja([X|L],skok(X,S)) :- konwersja(L,S).
+
+codrugi([_,Y],[Y]). %warunek koncowy dla list parzystych
+% codrugi([],[]). wersja alternatywana (lepsza) warunku dla list parzystych
+codrugi([_],[]). %warunek koncowy dla nieparzystych
+codrugi([_,X|Y],[X|R]):-codrugi(Y,R).
+
+bezostatniego([_],[]).
+bezostatniego([X|Y],[X|L]):-bezostatniego(Y,L).
+
+ostatni([X],X).
+ostatni([_|Y],L):-ostatni(Y,L).
+
+nakoniec(X,[],[X]).
+nakoniec(X,[_|Y],R) :- nakoniec(X,Y,R).
