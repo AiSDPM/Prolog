@@ -21,7 +21,9 @@ czynniki(Num,D,[D|Y]) :- Num mod D =:= 0,!, New is Num // D, czynniki(New,D,Y).
 czynniki(Num,D,Y) :- Num > D ,ND is D + 1, czynniki(Num,ND,Y).
 
 
-maxsum(X, Y)
+suma([],0).
+suma([H|T],Out):- suma(T,SC), Out is H + SC.
 
-
-
+maxsuma([A],A).
+maxsuma([H|T],Max) :- maxsuma(T,Max), suma(H,Suma), suma(Max,Suma2), Suma2 > Suma, !.
+maxsuma([H|_],H).
