@@ -1,0 +1,45 @@
+zadanie1(X,X3) :- rozbij(X,X1), usuwaj(X1,X2), sklejaj(X2,X3).
+
+rozbijaj(0,[]):-!.
+rozbijaj(X,Out):- Cyfra is mod(X,10), Reszta is div(X,10), rozbijaj(Reszta,Out1), append(Out1,[Cyfra], Out).
+
+rozbij([],[]):- !.
+rozbij([H|T],[H1|T2]):- rozbij(T,T2),rozbijaj(H,H1).
+
+usun([H],[H]).
+usun([H1,H2|T], TOut) :- H1 > H2,!, usun([H1|T], TOut).
+usun([H1,H2|T], [H1|TOut]) :- usun([H2|T], TOut).
+
+usuwaj([],[]):-!.
+usuwaj([H|T],[H1|T1]) :- usuwaj(T,T1),usun(H,H1).
+
+polacz([],0):-!.
+polacz(A,Out):-append(C,[B],A), polacz(C,X2), Out is X2*10+B.
+
+sklejaj([],[]):-!.
+sklejaj([H|T],[H1|T1]):- sklejaj(T,T1), polacz(H,H1).
+
+insertsort1([],[],[],[]):-!.
+insertsort1([H1|T1],[H2|T2],X,Y):-insertsort1(T1,T2,X1,Y1),insert1(H1,H2,X1,Y1,X,Y).
+insert1(H1,H2,[],[],[H1],[H2]):-!.
+insert1(X1,X2,[H1|T1],[H2|T2],[X1,H1|T1],[X2,H2|T2]):-X2=<H2,!.
+insert1(X1,X2,[H1|T1],[H2|T2],[H1|T3],[H2|T4]):-insert1(X1,X2,T1,T2,T3,T4).
+
+
+
+zamien1([A],[K], [A],[K]).
+zamien1([Hw1,Hw2|Tw],[Hk1,Hk2|Tk],[Hw1|X1],[Hk1|X2]):- Hk1=<Hk2,!, zamien1([Hw2|Tw],[Hk2|Tk],X1,X2).
+zamien1([Hw1,Hw2|Tw],[Hk1,Hk2|Tk],[Hw2,Hw1|Tw],[Hk2,Hk1|Tk]).
+
+
+babel1(A,B,A,B):- zamien1(A,B,A,B).
+babel1(WS,KS,WE,KE) :- zamien1(WS,KS,WPos,KPos),WS\=WPos, babel1(WPos,KPos,WE,KE).
+
+
+alfabet([a,b,c,d,e,f]).
+ix(Litera, I,[H|T]):- H \= Litera, ix(Litera,SI,T), I is SI + 1.
+ix(Litera, 1,[Litera|_]).
+
+index(Lista):- alfabet(Alfa),index(Alfa,Alfa,Lista).
+index(Alfa,[X],[I]):- ix(X,I,Alfa) .
+index(Alfa,[H|T], [I|Tw]):- index(Alfa,T,Tw), ix(H,I, Alfa).
